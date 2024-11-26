@@ -93,6 +93,6 @@ export default function Card(props) {
   }
 
   return (
-    <div className={buy && trueIndex() ? 'highlight-card' : 'card'} style={{ backgroundImage: flip ? `url(${returnCorrectCard(suit, rank)})` : `url(${bycicle})`}}></div>
+    <div data-testid="card" className={buy && trueIndex() ? 'highlight-card' : 'card'} style={{ backgroundImage: flip ? `url(${returnCorrectCard(suit, rank)})` : `url(${bycicle})`}}></div>
   )
 }

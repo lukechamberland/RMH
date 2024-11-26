@@ -1,3 +1,9 @@
+import blackChip from './images/Black_Chip.jpg';
+import whiteChip from './images/White_Chip.jpg';
+import blueChip from './images/Blue_Chip.png';
+import redChip from './images/Red_Chip.jpg';
+import greenChip from './images/Green_Chip.jpg';
+
 const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king', 'ace'];
 
@@ -160,7 +166,7 @@ export const addOneCount = function (setState, state, folds, playerTurn) {
       myArray = ['one', 'two', 'three'];
     } else if (state === 0 || state === 4 || state === 8 || state === 12 || state === 16 || state === 20) {
       myArray = ['two', 'three', 'four'];
-    } 
+    }
   } else if (playerTurn === 3) {
     if (state === 1 || state === 5 || state === 9 || state === 13 || state === 17) {
       myArray = ['four', 'one', 'two'];
@@ -180,7 +186,7 @@ export const addOneCount = function (setState, state, folds, playerTurn) {
       myArray = ['three', 'four', 'one'];
     } else if (state === 0 || state === 4 || state === 8 || state === 12 || state === 16 || state === 20) {
       myArray = ['four', 'one', 'two'];
-    } 
+    }
   }
   let number = 1;
   for (let ele of myArray) {
@@ -402,7 +408,7 @@ export const pokerHandRankings = {
 
 ////
 
-export const generateRandomChipsTwo = function (array, currentArray) {
+export const generateRandomChipsTwo = function (array, currentArray, bool) {
   let number;
   for (let key in pokerHandRankings) {
     const newNumber = pokerHandRankings[key](array);
@@ -422,7 +428,7 @@ export const generateRandomChipsTwo = function (array, currentArray) {
     if (myNewNumber < 11) {
       return 'fold';
     } else {
-      return [...currentArray];
+      return bool && myNewNumber > 70 ? [] : [...currentArray];
     }
   }
 }
@@ -435,3 +441,50 @@ const cards = [
   { suit: 'spades', rank: 2, flip: false },
   { suit: 'clubs', rank: 8, flip: false }
 ];
+
+export default returnDeck;
+
+export const getFolds = function (object) {
+  let number = 0;
+  for (let key in object) {
+    if (object[key]) {
+      number += 1;
+    }
+  }
+  return number < 2;
+}
+
+export const removeBlindFromRaise = function (blind, raise) {
+  const newRaise = [...raise];
+  for (let ele of blind) {
+    for (let i = 0; i < newRaise.length; i++) {
+      if (ele === newRaise[i]) {
+        newRaise.splice(i, 1);
+        break;
+      }
+    }
+  }
+  return newRaise;
+}
+
+export const returnRandomRaise = function (blind) {
+  const decider = generateRandomNumber(100);
+  if (decider > 40) {
+    return [...blind];
+  }
+  const chips = [
+    whiteChip,
+    redChip,
+    blueChip,
+    greenChip,
+    blackChip
+  ];
+
+  const num = generateRandomNumber(3);
+  const newChips = [];
+  for (let i = 0; i < num; i++) {
+    const newRandomNum = generateRandom(5);
+    newChips.push(chips[newRandomNum])
+  }
+  return [...blind, ...newChips];
+}
